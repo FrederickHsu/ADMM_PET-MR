@@ -1,0 +1,138 @@
+nccol=72*104;
+ncrow=72*104;
+nimgx=120;
+nimgy=72*4;
+nimgz=104*4;
+
+% fid1=fopen('GPU_DHAPET_backward_ite100_activity_f.DAT','r');
+fid1=fopen('GPU_DHAPET_backward_ite5_attenuation_f.DAT','r');
+%fid2=fopen('CPU_DHAPET_acttenuationmap_ite1_.DAT','r');
+f_2D1=fread(fid1,[nimgx*nimgy*nimgz],'float');
+%f_2D2=fread(fid2,[nimgx*nimgy*nimgz],'float');
+s=size(f_2D1);
+%ss=size(f_2D2);
+f_2D1=reshape(f_2D1,nimgy,nimgz,nimgx);
+%f_2D2=reshape(f_2D2,nimgy,nimgz,nimgx);
+f_3D1=f_2D1(:,:,60);
+%f_3D2=f_2D2(:,:,60);
+ f1=reshape(f_3D1,nimgy,nimgz);
+ %f2=reshape(f_3D2,nimgy,nimgz);  
+ f1=flipud(f1);
+ %f2=flipud(f2);
+ fclose(fid1);
+ %fclose(fid2);
+ f1=f1(70:230,130:290);
+ figure;
+ imagesc(f1);colormap(gray);axis image;
+ %figure(2);
+ %imagesc(f2);colormap(gray);axis image;
+ 
+ M1=max(max(max(f_2D1)));
+ %M2=max(max(max(f_2D2)));
+ 
+% fid2=fopen('DHAPET_original_backward_medium.DAT','r');
+% f_2D2=fread(fid2,[nimgx*nimgy*nimgz],'float');
+%  f_2D2=reshape(f_2D2,nimgy,nimgz,nimgx);
+%  f_3D2=f_2D2(:,:,100);
+%  f2=reshape(f_3D2,nimgy,nimgz);
+% % f2=f2(24:120,34:175);  %%medium
+%  f2=flipud(f2);
+%  fclose(fid2);
+%  figure;
+%  imagesc(f2):colormap(gray);axis image;
+
+% fid3=fopen('DHAPET_original_backward_up.DAT','r');
+% f_2D3=fread(fid3,[nimgx*nimgy*nimgz],'float');
+% f_2D3=reshape(f_2D3,nimgy,nimgz,nimgx);
+% f_3D3=f_2D3(:,:,60);
+% f3=reshape(f_3D3,nimgy,nimgz);
+% %f3=f3;%(36:107,52:155);   %%up
+% f3=flipud(f3);
+% fclose(fid3);
+%  figure;
+%  imagesc(f3):colormap(gray);axis image;
+
+
+%f_3D=imresize(f_3D,2);
+%axis off;
+
+ 
+%  axis off;
+ %figure;
+ %axis on;
+% plot(f1(72,52:120),'black','LineWidth',2),hold on;    %low
+% plot(f2(47,19:120),'b','LineWidth',1),hold on; %medium
+% plot(f3(38,1:100),'r','LineWidth',1),hold on; %up
+%  axis on;
+%  legend('x = -20 mm','x =   0 mm','x =  20 mm');
+
+
+%  fDOI=f(109:180,156:260);
+%  figure;
+%  imagesc(fDOI):colormap(gray);axis off;axis image;
+% r=zeros(72,104);
+% for i=1:72
+%     for j=1:104
+%         r=r+reshape(f_2D(:,:,i,j),72,104);
+%     end
+% end
+% r=flipud(r);
+% imagesc(r,[0,5]):colormap(gray);
+% figure;
+% plot(r(46,10:85),'black');
+%  set(get(h,'xlabel'),'fontsize',24);
+%axis off;
+%  set(gca,'xtick',[95,105,115]);
+% set(gca,'xticklabel',[-5,0,5]);
+% xlabel('Z axis','fontsize',14);
+% set(gca,'ytick',[60,70,80]);
+% set(gca,'yticklabel',[5,0,-5]);
+%  ylabel('Y axis','fontsize',14);
+
+
+
+% [y,z]=meshgrid([0:2.42:123.42],[0:2.42:84.7]);
+% [t,s]=meshgrid([-4:0.1:120],[-4:0.1:80]);
+% a=interp2(y,z,r(37:72,53:104),t,s,'nearest');
+% a(isnan(a))=0;
+%result=float(HG);
+% xlabel('xaxis');
+% ylabel('yaxis');
+% set(gca,'xtick',[1:ReconSize/2-1:ReconSize/2*2]);
+% set(gca,'xticklabel',[-1;0;1]);
+% set(gca,'ytick',[1:ReconSize/2-1:ReconSize/2*2]);
+% set(gca,'yticklabel',[-1;0;1]);
+% fid=fopen('hist_DRF_ncy_72_ncz_104','r');
+% o_2D=fread(fid,[nccol*ncrow],'float');
+% o_2D=reshape(o_2D,72,104,72,104);
+% o_3D=o_2D(:,:,36,52);
+% o=reshape(o_3D,72,104);
+% %o=flipud(o);
+% % %result=float(HG);
+% fclose(fid);
+% figure;
+% imagesc(o,[0 100000]):colormap(gray);axis image;
+
+% fid=fopen('DHAPET_phantom.DAT','r');
+% p_2D=fread(fid,[nimgx*nimgy*nimgz],'float');
+% p_2D=reshape(p_2D,nimgy,nimgz,nimgx);
+% p_3D=p_2D(:,:,60);
+% p=reshape(p_3D,nimgy,nimgz);
+% p=flipud(p);
+% fclose(fid);
+% figure;
+% imagesc(p):colormap(gray);axis off;axis image;
+% figure;
+% plot(f(36,:));
+% hold on
+% plot(o(36,:),'r');
+% legend('Siddon','Montecarlo');
+% fid=fopen('DHAPET_phantom.DAT','r');
+% o_2D=fread(fid,[nimgx*nimgy*nimgz],'float');
+% o_2D=reshape(o_2D,nimgy,nimgz,nimgx);
+% o_3D=o_2D(:,:,60);
+% o=reshape(o_3D,nimgy,nimgz);
+% o=flipud(o);
+% fclose(fid);
+% figure;
+% imagesc(o):colormap(gray);axis off;axis image;

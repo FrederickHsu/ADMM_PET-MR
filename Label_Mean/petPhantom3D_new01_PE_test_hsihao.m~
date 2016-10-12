@@ -1,0 +1,75 @@
+clc,clear
+%------------------------configure------------------------%
+
+ny=288;nz=416;nx=120;
+
+r1=90;
+r2=50;
+r3=8;
+nn=[ny,nz,nx];
+n1=nn/2;
+n2=n1+r2;
+n3=n1-r2;
+v=[0.25 0.5 1];
+
+y=repmat(ones(ny,1)*[1:nz],1,nx);   y=reshape(y,nn);
+x=repmat([1:ny]'*ones(nz,1)',1,nx); x=reshape(x,nn);
+z=repmat(ones(nz,1)*[1:nx],ny,1);   z=reshape(z,nn);
+i = 1:492177;
+
+
+
+r1=30*4/2.42; v1=1; %   10mm
+z1=(x-n1(1)).^2+(y-n1(2)).^2+(z-1).^2;
+idx0=find(z1<r1^2);
+w=zeros(size(z1));
+w(idx0)=v1;
+
+% r2=6.61157,v1=3; %4mm
+% z1=(x-119.8677).^2+(y-188.1652).^2+(z-n1(3)).^2; 
+% idx0=find(z1<r2^2);
+% w(idx0)=v1;
+
+
+% r2=6.61157,v2=2; %v2���Q�n�O���Ӱϰ쪺�Ȭ��h��   4mm
+% z1=(x-168.1322).^2+(y-194.7768).^2+(z-n1(3)).^2;
+% idx0=find(z1<r2^2);
+% w(idx0)=v2;
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+r4 = 5*4/2.42; v2 = 3  ;%6mm
+z1=(x-n1(1)).^2+(y-n1(2)+15*4/2.42).^2+(z-1).^2; %�k
+idx0=find(z1<r4^2);
+w(idx0)=v2;
+ 
+% r3=9.91735; v3=1;  %6mm
+% z1=(x-n1(1)).^2+(y-179.9008).^2+(z-n1(3)).^2;  
+% idx1=find(z1<r3^2);
+% w(idx1)=v3;
+
+r3=5*4/2.42; v3 = 3;  %6mm
+z1=(x-n1(1)).^2+(y-n1(2)-15*4/2.42).^2+(z-1).^2; 
+idx1=find(z1<r3^2);
+w(idx1)=v3;
+
+
+plot()
+% imshow(w(:,:,1),[])
+imagesc(w(70:220,130:280,1));colormap(gray);%colorbar;
+h3=colorbar;
+set(h3,'fontsize',16);
+axis equal
+% saveas(gca,'MR_map1.eps','epsc');
+
+% fid=fopen('ImgLabel','w');
+% fwrite(fid,w,'float');
+% fclose(fid);
+
+% for  i=1:120
+% image(w(:,:,i)*32)
+% pause(.1)
+% end

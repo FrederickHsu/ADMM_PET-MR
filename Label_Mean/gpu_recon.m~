@@ -1,0 +1,53 @@
+ clear all;
+ clc;
+nccol=72*104;
+ncrow=72*104;
+nimgx=120;
+nimgy=72*4;
+nimgz=104*4;
+
+% fid1=fopen('GPU_DHAPET_backward_ite2_activity_r001_new.DAT','r');
+fid1=fopen('ImgMean2.DAT','r');
+% fid1=fopen('ImgPre.DAT','r');
+
+f_2D1=fread(fid1,[120*nimgy*nimgz],'float');
+fclose(fid1);
+f_2D1=reshape(f_2D1,nimgy,nimgz,120);
+f_2DD=f_2D1(:,:,1);
+% for i=1:120
+%     if min(f_2D1)>0
+%         f_2DD=f_2D1(:,:,i);
+%     end
+% end
+
+f1=reshape(f_2DD,nimgy,nimgz);
+% %att
+% f1=30*abs(f1)*1.5;
+
+%act
+% f1=abs(f1*1400);
+% f1=imrotate(f1,180);
+% f1(:)=-f1(:)+max(f1);
+f1 = -f1+max(max(f1));
+f1 = f1 * 20000/3;
+% for i=size(f1)
+%     if f1(i)==0
+%         f1(i)=max(max(f1));
+%     else
+%         f1(i)=0;
+%     end
+% end
+% f1 = imcomplement(f1).*4.5286e-05;
+f1=f1(70:220,130:280);
+% figure;imshow(f1)
+plot(f1(75,:))
+figure;
+imagesc(f1);colormap(gray);%colorbar;
+h3=colorbar;
+set(h3,'fontsize',16);
+
+axis off;%axis equal
+% saveas(gca,'TOF_atteuation_ite1.eps','epsc');
+saveas(gca,'Label_Mean_2.eps','epsc');
+
+% figure; plot(f1(144,:))

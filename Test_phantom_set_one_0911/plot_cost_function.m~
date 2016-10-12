@@ -1,0 +1,87 @@
+clear all,close all;
+cost_ac_0 = [69302104 287782976 658186176 1184853632 1861786368 2688851200 3677549824];    %Activity
+cost_at_0 = [5104891.5 5043051 4976620 4910517.5 4849407 4788577.5 4736667.5];   %Attenuation
+
+cost_ac_1 = [1099511627776 4398046511104 8796093022208 17592186044416 35184372088832 35184372088832 70368744177664];
+cost_at_1 = [8953388 86637080 279928832 279928864 704807232 1124340864 2155416064];
+ite = [1:5 10 15];
+
+plot(ite, cost_ac_0);
+title('Activity')
+xlabel('iteration')
+ylabel('cost_function')
+
+figure
+plot(ite, cost_at_0);
+title('Attenuation')
+xlabel('iteration')
+ylabel('cost_function')
+
+figure
+plot(ite, cost_ac_1);
+title('Activity')
+xlabel('iteration')
+ylabel('cost_function')
+
+figure
+plot(ite, cost_at_1);
+title('Attenuation')
+xlabel('iteration')
+ylabel('cost_function')
+
+cost_ac_0_f = [];
+ first term[0] = 69302088.000000
+ second term = 18.648941
+ cost function[0] = 69302104.000000
+
+ first term[1] = 287782944.000000
+ second term = 18.648941
+ cost function[1] = 287782976.000000
+
+ first term[2] = 658186176.000000
+ second term = 18.648941
+ cost function[2] = 658186176.000000
+
+ first term[3] = 1184853632.000000
+ second term = 18.648941
+ cost function[3] = 1184853632.000000
+
+ first term[4] = 1861786368.000000
+ second term = 18.648941
+ cost function[4] = 1861786368.000000
+
+ first term[9] = 2688851200.000000
+ second term = 18.648941
+ cost function[9] = 2688851200.000000
+
+ first term[14] = 3677549824.000000
+ second term = 18.648941
+ cost function[14] = 3677549824.000000
+
+ first term[0] = 5104891.500000
+ second term = 0.113414
+ cost function[0] = 5104891.500000
+
+ first term[1] = 5043051.000000
+ second term = 0.113414
+ cost function[1] = 5043051.000000
+
+ first term[2] = 4976620.000000
+ second term = 0.113414
+ cost function[2] = 4976620.000000
+
+ first term[3] = 4910517.500000
+ second term = 0.113414
+ cost function[3] = 4910517.500000
+
+ first term[4] = 4849407.000000
+ second term = 0.113414
+ cost function[4] = 4849407.000000
+
+ first term[9] = 4788577.500000
+ second term = 0.113414
+ cost function[9] = 4788577.500000
+
+ first term[14] = 4736667.500000
+ second term = 0.113414
+ cost function[14] = 4736667.500000

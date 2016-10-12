@@ -1,0 +1,90 @@
+nccol=72*104;
+ncrow=72*104;
+nimgx=120;
+nimgy=72*4;
+nimgz=104*4;
+
+%phantom
+y_length = 251.68;
+z_length = 174.24;
+voxel_length = 0.605;
+pa = 1;
+
+voxel_length = voxel_length / pa;
+
+y_axis = - y_length/2 + voxel_length/2 : voxel_length : y_length/2 - voxel_length/2;
+z_axis = - [- z_length/2 + voxel_length/2 : voxel_length : z_length/2 - voxel_length/2]';
+y_space = repmat(y_axis,size(z_axis,1),1);
+z_space = repmat(z_axis,1,size(y_axis,2));
+
+[m n] = size(y_space);
+%attenuation
+y_attenuation = -[0 -15 15];
+z_attenuation = [0 0 0];
+r_attenuation = [30 5 5];
+a_attenuation = [0.1 0.3 0.3];
+p = size(y_attenuation,2);
+attenuation = zeros(size(z_axis,1),size(y_axis,2));
+
+%activity
+y_activity = -[0 0 -15 0 15];
+z_activity = [0 15 0 -15 0];
+r_activity = [30 5 3.75 2.5 1.25];
+a_activity = [25 50 100 200 250];
+q = size(y_activity,2);
+activity = attenuation;
+
+for i = 1 : m
+    for j = 1 : n
+        for k1 = 1 : p
+            if (y_space(i,j) - y_attenuation(k1))^2 + (z_space(i,j) - z_attenuation(k1))^2 <= r_attenuation(k1)^2
+                attenuation(i,j) = a_attenuation(k1);
+            end
+        end
+        for k2 = 1 : q
+            if (y_space(i,j) - y_activity(k2))^2 + (z_space(i,j) - z_activity(k2))^2 <= r_activity(k2)^2
+                activity(i,j) = a_activity(k2);
+            end
+        end
+    end
+end
+
+%Norm
+norm_activity = sqrt(sum(sum(activity.*activity)));
+norm_attenuation = sqrt(sum(sum(attenuation.*attenuation)));
+%Display middle part of image
+% attenuation = attenuation(70*pa:230*pa,70*pa:230*pa);
+% activity = activity(73*pa:217*pa,137*pa:281*pa);
+
+fid1=fopen('activity_set_phantom_one_1_ite2.DAT','r');
+
+% fid1=fopen('attenuation_set_phantom_one_1_ite3.DAT','r');
+
+f_2D1=fread(fid1,[nimgx*nimgy*nimgz],'float');
+
+s=size(f_2D1);
+
+f_2D1=reshape(f_2D1,nimgy,nimgz,nimgx);
+
+f_3D1=f_2D1(:,:,60);
+
+f1=reshape(f_3D1,nimgy,nimgz);
+% f1=0.7*f1/100;
+% e10=sqrt(sum(sum((f1-activity).*(f1-activity))))/norm_activity;
+% ee10=sqrt(sum(sum((f1-attenuation).*(f1-attenuation))))/norm_attenuation;
+fclose(fid1);
+
+ %f1=f1(70:230,130:290);
+ figure;
+ imagesc(f1);colormap(gray);colorbar;axis image;
+
+%  iteration=1:10;
+%  figure;
+%  plot(iteration,100*ee,'r','LineWidth',2);axis([1, 10, 0, 100]);
+% ylabel('error (%)','fontname','times','FontSize',22);
+% xlabel('Number of iteration','fontname','times','FontSize',22);
+% set(gca,'fontname','times','FontSize',22,'xtick',[1;2;3;4;5;6;7;8;9;10],'ytick',[0;25;50;75;100]);
+ 
+ 
+
+

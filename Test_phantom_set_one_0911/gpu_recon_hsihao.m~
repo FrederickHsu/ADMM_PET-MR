@@ -1,0 +1,56 @@
+clear all;clc;close all;
+%%%%%%%%%%%%%%%%%%                set configuration                %%%%%%%%%%%%%%%%%%
+% nccol=72*104;
+% ncrow=72*104;
+nimgx=120;
+nimgy=72*4;
+nimgz=104*4;
+
+%%%%%%%%%%%%%%%%%%                Set the input file               %%%%%%%%%%%%%%%%%%
+open_file{1} = 'DRF_new_0627_iter1_nimgy288_nimgz416_nimgx120';                                
+% open_file{2} = 'DRF_new_0627_iter3_nimgy288_nimgz416_nimgx120';
+% open_file{3} = 'DRF_new_0627_iter5_nimgy288_nimgz416_nimgx120';
+% open_file{4} = 'subset0_LabelMean_ite2_new_0607';
+% open_file{5} = 'petPhantom3DLabel_hsihao';
+%%%%%%%%%%%%%%%%%%                Save the image file name          %%%%%%%%%%%%%%%%%%
+save_file_name{1} = 'hsihao data/2016Auguest/Final_ite1';
+save_file_name{2} = 'hsihao data/2016Auguest/Final_ite3';
+save_file_name{3} = 'hsihao data/2016Auguest/Final_ite5';
+%%%%%%%%%%%%%%%%%%                profile color                    %%%%%%%%%%%%%%%%%%
+profile_color{1} = 'r';
+profile_color{2} = 'b';
+profile_color{3} = 'k';
+profile_color{4} = 'g';
+
+
+%%%%%%%%%%%%%%%%%%                Main                             %%%%%%%%%%%%%%%%%%
+[row, col] = size(open_file);
+for i=1:col
+openfile(i)=fopen(open_file{i},'r');                                       %open data file
+image_vector{1,i}=fread(openfile(i),nimgx*nimgy*nimgz,'float');              %read image as vector
+fclose(openfile(1,i));
+image_matrix3D{1,i}=reshape(image_vector{1,i},nimgy,nimgz,nimgx);            %reshape vector to matrix 
+image_matrix2D{1,i}=image_matrix3D{1,i}(:,:,61);                           %load the layer 61 (central)
+image_matrix2D{1,i}=image_matrix2D{1,i}(30:250,100:320);            %zoom in the image
+% image_matrix2D{1,i}(155,:)=5e-7;   %draw the profile line on image
+figure(i);
+imagesc(image_matrix2D{1,i});colormap(gray);
+axis off
+%%     if want to draw profile
+% figure(col+1)
+% plot(image_matrix2D{1,i}(90,:),profile_color{i});  
+% plot(image_matrix2D{1,i}(135,:),profile_color{i});
+% plot(image_matrix2D{1,i}(155,:),profile_color{i});
+% hold on
+% legend('ite1','ite3','ite5')
+%% if want to save image
+% print('-deps',save_file_name{1,i});                                        %Save the .eps image file
+print('-dpng',save_file_name{1,i});                                        %Save the .png image file
+end
+
+%%%%%%%%%%%%%%%%%%                draw colorbar                  %%%%%%%%%%%%%%%%%%
+% bar=colorbar;
+% set(bar,'fontsize',16);
+
+
+
